@@ -290,6 +290,6 @@ class SelfHealing:
         self._healings.append(healing)
         if test:
             builtin.set_tags("healed")
-        # ponytail: one report per process; pabot workers each write their own file.
+        # Under pabot each worker writes its own file; libraries/ai_assist/reports.py merges them.
         report = Path(builtin.get_variable_value("${OUTPUT DIR}")) / REPORT_NAME
         report.write_text(json.dumps([asdict(h) for h in self._healings], indent=2), encoding="utf-8")

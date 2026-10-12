@@ -11,6 +11,7 @@ status, and any AI failure leaves the heuristic triage as is.
 from __future__ import annotations
 
 import json
+import os
 import re
 from dataclasses import dataclass, replace
 from pathlib import Path
@@ -164,8 +165,12 @@ def analyze(context: FailureContext, ai: GuardedProvider) -> Triage:
     )
 
 
-def render_markdown(triages: list[Triage], ai_provider: str) -> str:
-    """Run summary for ``ai_triage.md``."""
+def render_markdown(triages: list[Triage], ai_provider: str, base_dir: Path | None = None) -> str:
+    """Run summary for ``ai_triage.md``; screenshot links are relative to ``base_dir``."""
+
+    def link(path: str) -> str:
+        return Path(os.path.relpath(path, base_dir)).as_posix() if base_dir else Path(path).name
+
     lines = ["# AI Test Assistant: failure triage", ""]
     if not triages:
         return "\n".join(lines + ["No failures in this run.", ""])
@@ -191,7 +196,7 @@ def render_markdown(triages: list[Triage], ai_provider: str) -> str:
             *([f"- **AI hypothesis:** {t.hypothesis}"] if t.hypothesis else []),
             f"- **Suggested fix:** {t.suggested_fix}",
             *([f"- **URL:** {t.url}"] if t.url else []),
-            *([f"- **Screenshot:** [{Path(t.screenshot).name}]({Path(t.screenshot).name})"] if t.screenshot else []),
+            *([f"- **Screenshot:** [{Path(t.screenshot).name}]({link(t.screenshot)})"] if t.screenshot else []),
             "",
             "```",
             t.message,

@@ -7,15 +7,18 @@ For each failed test (including ``known-bug`` failures turned into SKIP by
 a screenshot, runs ``failure_analyzer.analyze`` and:
 
 - appends the triage to the test's message, so it shows in log.html and report.html,
-- writes a run summary to ``ai_triage.md`` in the output directory when the run ends.
+- writes a run summary to ``ai_triage.md`` (and ``ai_triage.json``) in the output directory
+  when the run ends.
 
 The listener never changes a test's status, and its own errors are logged as warnings.
 """
 
 from __future__ import annotations
 
+import json
 import logging
 import re
+from dataclasses import asdict
 from pathlib import Path
 from typing import Any
 
@@ -27,6 +30,7 @@ logger = logging.getLogger(__name__)
 SKIPPED_FAILURE_MARKER = "Original failure:"
 ERROR_BANNER = 'css:[data-test="error"]'
 REPORT_NAME = "ai_triage.md"
+REPORT_DATA_NAME = "ai_triage.json"  # merged across pabot workers by libraries/ai_assist/reports.py
 
 
 class AIReportListener:
@@ -63,7 +67,9 @@ class AIReportListener:
         if self.output_dir is None:
             return
         report = self.output_dir / REPORT_NAME
-        report.write_text(render_markdown(self.triages, get_provider().provider.name), encoding="utf-8")
+        report.write_text(render_markdown(self.triages, get_provider().provider.name, self.output_dir), encoding="utf-8")
+        data = self.output_dir / REPORT_DATA_NAME
+        data.write_text(json.dumps([asdict(t) for t in self.triages], indent=2), encoding="utf-8")
 
     def _capture(self, result: Any) -> FailureContext:
         """Collect page state; each piece is optional because the browser may be gone."""

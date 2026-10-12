@@ -4,12 +4,7 @@
     <option name="autoReloadType" value="ALL" />
   </component>
   <component name="ChangeListManager">
-    <list default="true" id="f63827c3-35a2-4951-b7d3-fb98cd073992" name="Changes" comment="">
-      <change beforePath="$PROJECT_DIR$/locators/locators.yaml" beforeDir="false" afterPath="$PROJECT_DIR$/locators/locators.yaml" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/resources/pages/InventoryPage.resource" beforeDir="false" afterPath="$PROJECT_DIR$/resources/pages/InventoryPage.resource" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/robot.args" beforeDir="false" afterPath="$PROJECT_DIR$/robot.args" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/tests/inventory.robot" beforeDir="false" afterPath="$PROJECT_DIR$/tests/inventory.robot" afterDir="false" />
-    </list>
+    <list default="true" id="f63827c3-35a2-4951-b7d3-fb98cd073992" name="Changes" comment="" />
     <option name="SHOW_DIALOG" value="false" />
     <option name="HIGHLIGHT_CONFLICTS" value="true" />
     <option name="HIGHLIGHT_NON_ACTIVE_CHANGELIST" value="false" />
@@ -18,10 +13,10 @@
   <component name="Git.Settings">
     <option name="RECENT_GIT_ROOT_PATH" value="$PROJECT_DIR$" />
   </component>
-  <component name="ProjectColorInfo"><![CDATA[{
-  "associatedIndex": 6,
-  "fromUser": false
-}]]></component>
+  <component name="ProjectColorInfo">{
+  &quot;associatedIndex&quot;: 6,
+  &quot;fromUser&quot;: false
+}</component>
   <component name="ProjectId" id="3KbKdcUwLR8b0tiyjp1cBabwaUd" />
   <component name="ProjectViewState">
     <option name="hideEmptyMiddlePackages" value="true" />
@@ -36,6 +31,7 @@
     "codeWithMe.voiceChat.enabledByDefault": "false",
     "git-widget-placeholder": "main",
     "last_opened_file_path": "/Users/jk/Developer/saucedemo-robot-ai",
+    "nodejs_package_manager_path": "npm",
     "python.packages.toolwindow.project.migrated.to.right.top.v2": "true"
   }
 }]]></component>
@@ -56,5 +52,8 @@
       <workItem from="1791820917251" duration="9000" />
     </task>
     <servers />
+  </component>
+  <component name="TypeScriptGeneratedFilesManager">
+    <option name="version" value="3" />
   </component>
 </project>

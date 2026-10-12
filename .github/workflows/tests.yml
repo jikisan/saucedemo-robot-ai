@@ -1,0 +1,73 @@
+name: tests
+
+on:
+  push:
+    branches: [main]
+  pull_request:
+  workflow_dispatch:
+
+concurrency:
+  group: tests-${{ github.ref }}
+  cancel-in-progress: true
+
+jobs:
+  unit:
+    name: Unit tests + keyword docs
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v4
+      - uses: actions/setup-python@v5
+        with:
+          python-version: "3.12"
+          cache: pip
+      - run: pip install -r requirements.txt
+      - run: pytest -q
+      - name: Build keyword docs (libdoc)
+        run: |
+          mkdir -p docs
+          for lib in libraries.ai_assist.self_healing.SelfHealing \
+                     libraries.ai_assist.visual_validator.VisualValidator \
+                     libraries.utils.data_loader \
+                     resources/elements.resource; do
+            python -m robot.libdoc --pythonpath . "$lib" "docs/$(basename "$lib").html"
+          done
+      - uses: actions/upload-artifact@v4
+        with:
+          name: keyword-docs
+          path: docs/
+
+  ui:
+    name: UI tests (Chrome headless, pabot)
+    runs-on: ubuntu-latest
+    env:
+      BROWSER: chrome
+      HEADLESS: "true"
+      # AI runs only when the repository has an ANTHROPIC_API_KEY secret; otherwise heuristics.
+      AI_PROVIDER: ${{ secrets.ANTHROPIC_API_KEY != '' && 'anthropic' || 'none' }}
+      AI_MODEL: ${{ vars.AI_MODEL || 'claude-opus-5-5' }}
+      ANTHROPIC_API_KEY: ${{ secrets.ANTHROPIC_API_KEY }}
+      AI_MAX_CALLS: ${{ vars.AI_MAX_CALLS || '20' }}
+    steps:
+      - uses: actions/checkout@v4
+      - uses: actions/setup-python@v5
+        with:
+          python-version: "3.12"
+          cache: pip
+      - run: pip install -r requirements.txt
+      - name: Run Robot suites in parallel
+        run: pabot --processes 4 -A robot.args tests
+      - name: Merge AI reports from pabot workers
+        if: always()
+        run: python -m libraries.ai_assist.reports results
+      - name: Publish triage as job summary
+        if: always()
+        run: |
+          if [ -f results/ai_triage.md ]; then cat results/ai_triage.md >> "$GITHUB_STEP_SUMMARY"; fi
+          if [ -f results/healing_report.json ]; then
+            { echo; echo "## Self-healed locators"; echo '```json'; cat results/healing_report.json; echo '```'; } >> "$GITHUB_STEP_SUMMARY"
+          fi
+      - uses: actions/upload-artifact@v4
+        if: always()
+        with:
+          name: robot-results
+          path: results/

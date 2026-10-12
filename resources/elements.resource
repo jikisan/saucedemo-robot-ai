@@ -12,47 +12,49 @@ Library             libraries.utils.data_loader
 Library             libraries.ai_assist.self_healing.SelfHealing
 
 
+*** Variables ***
+${RETRY_INTERVAL}     200ms
+
+
 *** Keywords ***
 Click Locator
     [Arguments]    ${key}    &{params}
     ${locator}=    Resolve Locator    ${key}    &{params}
     Wait Until Element Is Visible    ${locator}
-    Click Element    ${locator}
+    Retry On Stale Element    Click Element    ${locator}
 
 Input Into Locator
     [Arguments]    ${key}    ${text}    &{params}
     ${locator}=    Resolve Locator    ${key}    &{params}
     Wait Until Element Is Visible    ${locator}
-    Input Text    ${locator}    ${text}
+    Retry On Stale Element    Input Text    ${locator}    ${text}
 
 Input Secret Into Locator
     [Documentation]    Like ``Input Into Locator`` but keeps the value out of the log.
     [Arguments]    ${key}    ${secret}
     ${locator}=    Resolve Locator    ${key}
     Wait Until Element Is Visible    ${locator}
-    Input Password    ${locator}    ${secret}
+    Retry On Stale Element    Input Password    ${locator}    ${secret}
 
 Select Value From Locator
     [Arguments]    ${key}    ${value}
     ${locator}=    Resolve Locator    ${key}
     Wait Until Element Is Visible    ${locator}
-    Select From List By Value    ${locator}    ${value}
+    Retry On Stale Element    Select From List By Value    ${locator}    ${value}
 
 Get Text Of Locator
     [Arguments]    ${key}    &{params}
     ${locator}=    Resolve Locator    ${key}    &{params}
     Wait Until Element Is Visible    ${locator}
-    ${text}=    Get Text    ${locator}
+    ${text}=    Retry On Stale Element    Get Text    ${locator}
     RETURN    ${text}
 
 Get Texts Of Locator
     [Documentation]    Returns the visible text of every element matching the key.
-    ...                Retries within the Selenium timeout if the list re-renders mid-read (stale element).
     [Arguments]    ${key}
     ${locator}=    Resolve Locator    ${key}
     Wait Until Element Is Visible    ${locator}
-    ${timeout}=    Get Selenium Timeout
-    ${texts}=    Wait Until Keyword Succeeds    ${timeout}    200ms    Read Texts Of Elements    ${locator}
+    ${texts}=    Retry On Stale Element    Read Texts Of Elements    ${locator}
     RETURN    ${texts}
 
 Read Texts Of Elements
@@ -80,3 +82,12 @@ Wait Until Locator Is Gone
     [Arguments]    ${key}    &{params}
     ${locator}=    Get Locator    ${key}    &{params}
     Wait Until Page Does Not Contain Element    ${locator}
+
+Retry On Stale Element
+    [Documentation]    Runs a SeleniumLibrary keyword, retrying within the Selenium timeout if it fails,
+    ...                e.g. because the element went stale during a re-render. Safe for these actions:
+    ...                a stale click never happened, and ``Input Text`` clears the field first.
+    [Arguments]    ${keyword}    @{args}
+    ${timeout}=    Get Selenium Timeout
+    ${result}=    Wait Until Keyword Succeeds    ${timeout}    ${RETRY_INTERVAL}    ${keyword}    @{args}
+    RETURN    ${result}

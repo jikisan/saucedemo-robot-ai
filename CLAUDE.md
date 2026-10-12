@@ -53,3 +53,11 @@ unit_tests/                 pytest for Python libraries, FakeProvider, no networ
 10. **AI verdicts are advisory.** Only heuristic checks can fail a test. AI opinions are logged as WARN + included in `ai_triage.md`. CI outcome is identical with or without an API key.
 11. **Healed tests pass**, with WARN, a `healing_report.json` entry, and a runtime `healed` tag.
 12. **Cost guard:** `AI_MAX_CALLS` (default 20) per run, shared across all AI features. After the cap → heuristics only. Known-bug failures still get AI triage until the cap.
+
+## Implementation notes (deviations from the original structure)
+
+- `robot.args` holds Robot options (`--pythonpath .`, `--outputdir results`, `--skiponfailure known-bug`, listener); Robot ignores `[tool.robot]` in pyproject. Always run `robot -A robot.args tests` (or `pabot ... -A robot.args tests`). `pyproject.toml` only configures pytest.
+- `resources/elements.resource`: single choke point for locator keys (explicit waits, `Retry On Stale Element`, `Resolve Locator` self-healing). Page objects use only its keywords.
+- `resources/pages/HeaderComponent.resource`: header/cart badge/menu shared by logged-in pages.
+- `libraries/ai_assist/reports.py`: merges per-worker AI reports after pabot (`python -m libraries.ai_assist.reports results`).
+- Chrome password manager is disabled in `common.resource`: Chrome's breached-password bubble steals focus after the first `secret_sauce` login.
