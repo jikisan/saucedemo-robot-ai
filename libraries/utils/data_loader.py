@@ -4,7 +4,7 @@ Keywords:
 
 - ``Get User`` returns credentials from ``data/users.yaml``.
 - ``Get Locator`` returns the primary locator for a dotted key from ``locators/locators.yaml``,
-  e.g. ``login.username``.
+  e.g. ``login.username``. Templated locators take named arguments, e.g. ``product=...``.
 
 Files are parsed once per process and cached.
 """
@@ -51,9 +51,12 @@ def get_locator_entry(key: str) -> dict[str, str]:
     return entry
 
 
-def get_locator(key: str) -> str:
-    """Return the primary locator for a dotted key.
+def get_locator(key: str, **params: str) -> str:
+    """Return the primary locator for a dotted key, filling ``{placeholders}`` from ``params``.
 
-    Example: ``${field}=    Get Locator    login.username``
+    Examples:
+    | ${field}=  | Get Locator | login.username |
+    | ${button}= | Get Locator | inventory.add_to_cart | product=Sauce Labs Backpack |
     """
-    return get_locator_entry(key)["primary"]
+    primary = get_locator_entry(key)["primary"]
+    return primary.format(**params) if params else primary

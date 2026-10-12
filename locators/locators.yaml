@@ -54,6 +54,12 @@ inventory:
   sort_select:
     primary: css:[data-test="product-sort-container"]
     description: Sort dropdown for products (name or price, ascending or descending)
+  add_to_cart:
+    primary: xpath://div[@data-test="inventory-item"][.//div[@data-test="inventory-item-name"][normalize-space()="{product}"]]//button[starts-with(@data-test,"add-to-cart")]
+    description: Add to cart button on the product card named {product}
+  remove:
+    primary: xpath://div[@data-test="inventory-item"][.//div[@data-test="inventory-item-name"][normalize-space()="{product}"]]//button[starts-with(@data-test,"remove")]
+    description: Remove button on the product card named {product}
 
 cart:
   item:
@@ -62,6 +68,9 @@ cart:
   item_name:
     primary: css:[data-test="inventory-item-name"]
     description: Product name of a cart line item
+  remove:
+    primary: xpath://div[@data-test="inventory-item"][.//div[@data-test="inventory-item-name"][normalize-space()="{product}"]]//button[starts-with(@data-test,"remove")]
+    description: Remove button on the cart line item named {product}
   checkout_button:
     primary: css:[data-test="checkout"]
     description: Checkout button at the bottom of the cart
@@ -85,6 +94,9 @@ checkout:
   error:
     primary: css:[data-test="error"]
     description: Error message shown on the checkout information form
+  item_price:
+    primary: css:[data-test="inventory-item-price"]
+    description: Price of a line item on the checkout overview
   subtotal:
     primary: css:[data-test="subtotal-label"]
     description: Item total (subtotal before tax) on the checkout overview

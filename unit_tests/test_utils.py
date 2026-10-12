@@ -65,5 +65,6 @@ def test_every_locator_has_primary_and_description() -> None:
 
 def test_get_locator() -> None:
     assert get_locator("login.username") == 'css:[data-test="username"]'
+    assert '"Bike Light"' in get_locator("inventory.add_to_cart", product="Bike Light")
     with pytest.raises(KeyError):
         get_locator("login.missing")

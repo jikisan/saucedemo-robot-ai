@@ -1,5 +1,8 @@
-*** Test Cases ***,${first_name},${last_name},${postal_code},${expected_error}
-Checkout Succeeds With Valid Details,Ada,Lovelace,10115,
-Checkout Requires First Name,,Lovelace,10115,Error: First Name is required
-Checkout Requires Last Name,Ada,,10115,Error: Last Name is required
-Checkout Requires Postal Code,Ada,Lovelace,,Error: Postal Code is required
+*** Test Cases ***,${user},${first_name},${last_name},${postal_code},${expected_error},[Tags]
+Checkout Succeeds With Valid Details,standard,Ada,Lovelace,10115,,"smoke,regression"
+Checkout Requires First Name,standard,,Lovelace,10115,Error: First Name is required,negative
+Checkout Requires Last Name,standard,Ada,,10115,Error: Last Name is required,negative
+Checkout Requires Postal Code,standard,Ada,Lovelace,,Error: Postal Code is required,negative
+Checkout Accepts Unicode Names,standard,Zoë,Ångström-Núñez,75001,,edge
+Problem User Can Complete Checkout,problem,Ada,Lovelace,10115,,known-bug
+Error User Can Complete Checkout,error,Ada,Lovelace,10115,,known-bug

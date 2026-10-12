@@ -1,0 +1,8 @@
+[tool.robot]
+pythonpath = ["."]
+outputdir = "results"
+skiponfailure = ["known-bug"]
+
+[tool.pytest.ini_options]
+testpaths = ["unit_tests"]
+pythonpath = ["."]

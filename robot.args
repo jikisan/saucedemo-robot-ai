@@ -1,0 +1,3 @@
+--pythonpath .
+--outputdir results
+--skiponfailure known-bug
