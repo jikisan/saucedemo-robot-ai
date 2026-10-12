@@ -1,0 +1,25 @@
+# Public SauceDemo demo accounts (credentials are published on the login page).
+standard:
+  username: standard_user
+  password: secret_sauce
+  behavior: Works as intended.
+locked_out:
+  username: locked_out_user
+  password: secret_sauce
+  behavior: Login is rejected with a "locked out" error.
+problem:
+  username: problem_user
+  password: secret_sauce
+  behavior: Wrong product images, broken sorting, some cart and form actions misbehave.
+performance_glitch:
+  username: performance_glitch_user
+  password: secret_sauce
+  behavior: Login and navigation are slow but succeed.
+error:
+  username: error_user
+  password: secret_sauce
+  behavior: Some cart actions and checkout steps fail silently.
+visual:
+  username: visual_user
+  password: secret_sauce
+  behavior: Visual defects such as misaligned elements and wrong images.

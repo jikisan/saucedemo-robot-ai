@@ -1,0 +1,5 @@
+*** Test Cases ***,${first_name},${last_name},${postal_code},${expected_error}
+Checkout Succeeds With Valid Details,Ada,Lovelace,10115,
+Checkout Requires First Name,,Lovelace,10115,Error: First Name is required
+Checkout Requires Last Name,Ada,,10115,Error: Last Name is required
+Checkout Requires Postal Code,Ada,Lovelace,,Error: Postal Code is required

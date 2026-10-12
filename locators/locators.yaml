@@ -1,0 +1,102 @@
+# Every locator: primary (SeleniumLibrary syntax) + description (plain English used by self-healing).
+# Keys are referenced as <page>.<element>, e.g. login.username.
+
+login:
+  username:
+    primary: css:[data-test="username"]
+    description: Username text input on the login form
+  password:
+    primary: css:[data-test="password"]
+    description: Password text input on the login form
+  submit:
+    primary: css:[data-test="login-button"]
+    description: Login submit button
+  error:
+    primary: css:[data-test="error"]
+    description: Error message banner shown above the login button
+
+header:
+  title:
+    primary: css:[data-test="title"]
+    description: Page title text in the secondary header, e.g. Products or Your Cart
+  cart_link:
+    primary: css:[data-test="shopping-cart-link"]
+    description: Shopping cart icon link in the top right header
+  cart_badge:
+    primary: css:[data-test="shopping-cart-badge"]
+    description: Red badge on the cart icon showing the number of items
+  menu_button:
+    primary: id:react-burger-menu-btn
+    description: Hamburger menu button that opens the side navigation
+  logout_link:
+    primary: css:[data-test="logout-sidebar-link"]
+    description: Logout link in the side navigation menu
+  reset_link:
+    primary: css:[data-test="reset-sidebar-link"]
+    description: Reset App State link in the side navigation menu
+
+inventory:
+  container:
+    primary: css:[data-test="inventory-container"]
+    description: Container holding the list of products
+  item:
+    primary: css:[data-test="inventory-item"]
+    description: A single product card in the inventory list
+  item_name:
+    primary: css:[data-test="inventory-item-name"]
+    description: Product name link on a product card
+  item_price:
+    primary: css:[data-test="inventory-item-price"]
+    description: Product price text on a product card
+  item_image:
+    primary: css:img.inventory_item_img
+    description: Product thumbnail image on a product card
+  sort_select:
+    primary: css:[data-test="product-sort-container"]
+    description: Sort dropdown for products (name or price, ascending or descending)
+
+cart:
+  item:
+    primary: css:[data-test="inventory-item"]
+    description: A single line item in the cart
+  item_name:
+    primary: css:[data-test="inventory-item-name"]
+    description: Product name of a cart line item
+  checkout_button:
+    primary: css:[data-test="checkout"]
+    description: Checkout button at the bottom of the cart
+  continue_shopping:
+    primary: css:[data-test="continue-shopping"]
+    description: Continue Shopping button returning to the inventory
+
+checkout:
+  first_name:
+    primary: css:[data-test="firstName"]
+    description: First Name input on the checkout information form
+  last_name:
+    primary: css:[data-test="lastName"]
+    description: Last Name input on the checkout information form
+  postal_code:
+    primary: css:[data-test="postalCode"]
+    description: Zip or Postal Code input on the checkout information form
+  continue_button:
+    primary: css:[data-test="continue"]
+    description: Continue button on the checkout information form
+  error:
+    primary: css:[data-test="error"]
+    description: Error message shown on the checkout information form
+  subtotal:
+    primary: css:[data-test="subtotal-label"]
+    description: Item total (subtotal before tax) on the checkout overview
+  tax:
+    primary: css:[data-test="tax-label"]
+    description: Tax amount on the checkout overview
+  total:
+    primary: css:[data-test="total-label"]
+    description: Grand total including tax on the checkout overview
+  finish_button:
+    primary: css:[data-test="finish"]
+    description: Finish button that places the order on the checkout overview
+  complete_header:
+    primary: css:[data-test="complete-header"]
+    description: Thank you heading on the order complete page
