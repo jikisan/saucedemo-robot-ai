@@ -54,6 +54,9 @@ inventory:
   sort_select:
     primary: css:[data-test="product-sort-container"]
     description: Sort dropdown for products (name or price, ascending or descending)
+  item_button:
+    primary: css:[data-test="inventory-item"] button
+    description: Add to cart or Remove button on each product card
   add_to_cart:
     primary: xpath://div[@data-test="inventory-item"][.//div[@data-test="inventory-item-name"][normalize-space()="{product}"]]//button[starts-with(@data-test,"add-to-cart")]
     description: Add to cart button on the product card named {product}

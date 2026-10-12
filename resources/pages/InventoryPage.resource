@@ -3,10 +3,13 @@ Documentation       Inventory (Products) page: product list, sorting and add/rem
 Resource            ../elements.resource
 Resource            HeaderComponent.resource
 Library             String
+Library             libraries.ai_assist.visual_validator.VisualValidator
 
 
 *** Variables ***
 &{SORT_OPTIONS}     name ascending=az    name descending=za    price ascending=lohi    price descending=hilo
+${EXPECTED_LOOK}    Products page with six distinct product photos in a two-column grid, each with a name,
+...                 a price and an aligned "Add to cart" button; cart icon in the top-right header.
 
 
 *** Keywords ***
@@ -63,3 +66,19 @@ Products Should Be Sorted By
 Product Button Should Say Remove
     [Arguments]    ${product}
     Wait Until Locator Is Visible    inventory.remove    product=${product}
+
+Product Images Should Be Valid
+    [Documentation]    Fails on broken, placeholder, duplicated or oddly sized product images.
+    Wait Until Locator Is Visible    inventory.item_image
+    ${locator}=    Get Locator    inventory.item_image
+    Images Should Be Valid    ${locator}
+
+Product Cards Should Be Aligned
+    [Documentation]    Fails if any product card button leaves the grid columns or changes size.
+    Wait Until Locator Is Visible    inventory.item_button
+    ${locator}=    Get Locator    inventory.item_button
+    Elements Should Be Aligned    ${locator}
+
+Inventory Should Look Correct To AI Reviewer
+    [Documentation]    Advisory vision check; logs findings, never fails.
+    Screen Should Match Description    ${EXPECTED_LOOK}

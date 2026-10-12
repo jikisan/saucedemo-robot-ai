@@ -48,6 +48,37 @@ Standard User Can Add Every Product
     [Template]    Every Product Should Be Addable For User
     standard
 
+Product Images Are Valid
+    [Tags]    regression
+    [Template]    Product Images Should Be Valid For User
+    standard
+
+Product Cards Are Aligned
+    [Tags]    regression
+    [Template]    Product Cards Should Be Aligned For User
+    standard
+
+Inventory Looks Correct To AI Reviewer
+    [Documentation]    Advisory only: logs the AI verdict as WARN/INFO, skipped without AI.
+    [Tags]    ai
+    Login As And Open Inventory    standard
+    Inventory Should Look Correct To AI Reviewer
+
+Problem User Sees Correct Product Images
+    [Tags]    known-bug
+    [Template]    Product Images Should Be Valid For User
+    problem
+
+Visual User Sees Correct Product Images
+    [Tags]    known-bug
+    [Template]    Product Images Should Be Valid For User
+    visual
+
+Visual User Sees Aligned Product Cards
+    [Tags]    known-bug
+    [Template]    Product Cards Should Be Aligned For User
+    visual
+
 Problem User Can Sort Products
     [Tags]    known-bug
     [Template]    Sorting Should Work For User
@@ -76,3 +107,13 @@ Every Product Should Be Addable For User
     Login As And Open Inventory    ${user_key}
     Add Every Product To Cart
     Cart Badge Should Show    6
+
+Product Images Should Be Valid For User
+    [Arguments]    ${user_key}
+    Login As And Open Inventory    ${user_key}
+    Product Images Should Be Valid
+
+Product Cards Should Be Aligned For User
+    [Arguments]    ${user_key}
+    Login As And Open Inventory    ${user_key}
+    Product Cards Should Be Aligned

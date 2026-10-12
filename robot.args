@@ -1,3 +1,4 @@
 --pythonpath .
 --outputdir results
 --skiponfailure known-bug
+--listener listeners/AIReportListener.py

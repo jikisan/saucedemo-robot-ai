@@ -47,9 +47,16 @@ Get Text Of Locator
 
 Get Texts Of Locator
     [Documentation]    Returns the visible text of every element matching the key.
+    ...                Retries within the Selenium timeout if the list re-renders mid-read (stale element).
     [Arguments]    ${key}
     ${locator}=    Resolve Locator    ${key}
     Wait Until Element Is Visible    ${locator}
+    ${timeout}=    Get Selenium Timeout
+    ${texts}=    Wait Until Keyword Succeeds    ${timeout}    200ms    Read Texts Of Elements    ${locator}
+    RETURN    ${texts}
+
+Read Texts Of Elements
+    [Arguments]    ${locator}
     ${elements}=    Get WebElements    ${locator}
     ${texts}=    Create List
     FOR    ${element}    IN    @{elements}
