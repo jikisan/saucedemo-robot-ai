@@ -112,3 +112,9 @@ checkout:
   complete_header:
     primary: css:[data-test="complete-header"]
     description: Thank you heading on the order complete page
+
+# Deliberately outdated locator: the self-healing demo test proves recovery from it.
+demo:
+  renamed_login_button:
+    primary: css:[data-test="login-btn-v2"]
+    description: Login submit button

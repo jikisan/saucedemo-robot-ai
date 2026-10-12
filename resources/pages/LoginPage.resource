@@ -23,6 +23,15 @@ Login As And Open Inventory
     Login As    ${user_key}
     Inventory Page Should Be Open    ${timeout}
 
+Login As Using Outdated Submit Locator
+    [Documentation]    Self-healing demo: submits through ``demo.renamed_login_button``, whose
+    ...                primary locator no longer exists on the page.
+    [Arguments]    ${user_key}
+    ${user}=    Get User    ${user_key}
+    Input Into Locator    login.username    ${user}[username]
+    Input Secret Into Locator    login.password    ${user}[password]
+    Click Locator    demo.renamed_login_button
+
 Login Page Should Be Open
     Wait Until Locator Is Visible    login.submit
 

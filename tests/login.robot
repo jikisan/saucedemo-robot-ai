@@ -54,6 +54,16 @@ Performance Glitch User Logs In Within Extended Timeout
     [Tags]    edge
     Login As And Open Inventory    performance_glitch    timeout=${GLITCH_LOGIN_TIMEOUT}
 
+Self-Healing Recovers An Outdated Login Button Locator
+    [Documentation]    The primary locator is wrong on purpose. The run must still log in, warn,
+    ...                tag the test ``healed`` and record the fix in ``healing_report.json``.
+    [Tags]    ai    edge
+    [Setup]    Run Keywords    Reset Application State    AND    Set Selenium Timeout    2s
+    [Teardown]    Set Selenium Timeout    ${TIMEOUT}
+    Login As Using Outdated Submit Locator    standard
+    Inventory Page Should Be Open
+    Locator Should Have Been Healed    demo.renamed_login_button
+
 
 *** Keywords ***
 Credentials Should Be Rejected
