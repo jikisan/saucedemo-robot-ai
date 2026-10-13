@@ -14,7 +14,10 @@ The AI never writes tests and never decides whether a test passes. It explains f
 
 ## Quick start
 
+Prerequisites: Python 3.11+, Git, Google Chrome (or only Docker, see below).
+
 ```bash
+git clone https://github.com/jikisan/saucedemo-robot-ai.git && cd saucedemo-robot-ai
 python3 -m venv .venv && source .venv/bin/activate
 pip install -r requirements.txt
 cp .env.example .env            # optional: AI is off by default
@@ -31,7 +34,8 @@ Chrome must be installed; Selenium Manager downloads the matching driver. Open `
 pabot --processes 4 -A robot.args tests && python -m libraries.ai_assist.reports results   # parallel (~30 s) + merged AI reports
 robot -A robot.args --include smoke tests                   # by tag
 robot -A robot.args --exclude known-bug tests               # healthy users only
-robot -A robot.args --test "Checkout Requires*" tests       # by name
+robot -A robot.args --test "Locked Out User Is Rejected" tests   # by name
+HEADLESS=false robot -A robot.args tests                    # watch the browser
 HEADLESS=false BROWSER=firefox robot -A robot.args tests    # headed Firefox
 ```
 
