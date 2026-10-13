@@ -6,6 +6,7 @@ Resource            HeaderComponent.resource
 
 *** Keywords ***
 Fill Checkout Information
+    [Documentation]    Fills the customer information form and continues to the overview.
     [Arguments]    ${first_name}    ${last_name}    ${postal_code}
     Input Into Locator    checkout.first_name    ${first_name}
     Input Into Locator    checkout.last_name    ${last_name}
@@ -13,6 +14,7 @@ Fill Checkout Information
     Click Locator    checkout.continue_button
 
 Finish Order
+    [Documentation]    Places the order from the overview page.
     Click Locator    checkout.finish_button
 
 Get Amount Of
@@ -23,11 +25,13 @@ Get Amount Of
     RETURN    ${amount}
 
 Checkout Error Should Be
+    [Documentation]    Verifies the checkout form shows exactly the ``expected`` error message.
     [Arguments]    ${expected}
     ${message}=    Get Text Of Locator    checkout.error
     Should Be Equal    ${message}    ${expected}
 
 Checkout Overview Should Be Open
+    [Documentation]    Verifies the checkout overview page is displayed.
     Wait Until Locator Is Visible    checkout.finish_button
     Page Title Should Be    Checkout: Overview
 
@@ -42,6 +46,7 @@ Order Totals Should Add Up
     Should Be Equal As Numbers    ${total}    ${subtotal + ${tax}}    precision=2
 
 Order Should Be Complete
+    [Documentation]    Verifies the order confirmation page and its thank-you message.
     ${header}=    Get Text Of Locator    checkout.complete_header
     Should Be Equal    ${header}    Thank you for your order!
     Page Title Should Be    Checkout: Complete!

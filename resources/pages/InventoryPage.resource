@@ -14,16 +14,19 @@ ${EXPECTED_LOOK}    Products page with six distinct product photos in a two-colu
 
 *** Keywords ***
 Add Products To Cart
+    [Documentation]    Clicks "Add to cart" for each product name in ``products``.
     [Arguments]    @{products}
     FOR    ${product}    IN    @{products}
         Click Locator    inventory.add_to_cart    product=${product}
     END
 
 Add Every Product To Cart
+    [Documentation]    Adds every product shown on the inventory page to the cart.
     ${names}=    Get Product Names
     Add Products To Cart    @{names}
 
 Remove Product From Inventory
+    [Documentation]    Clicks "Remove" for ``product`` on the inventory page.
     [Arguments]    ${product}
     Click Locator    inventory.remove    product=${product}
 
@@ -33,20 +36,24 @@ Sort Products By
     Select Value From Locator    inventory.sort_select    ${SORT_OPTIONS}[${order}]
 
 Get Product Names
+    [Documentation]    Returns the displayed product names, in page order.
     ${names}=    Get Texts Of Locator    inventory.item_name
     RETURN    ${names}
 
 Get Product Prices
+    [Documentation]    Returns the displayed product prices as numbers, in page order.
     ${texts}=    Get Texts Of Locator    inventory.item_price
     ${prices}=    Evaluate    [float(text.lstrip('$')) for text in $texts]
     RETURN    ${prices}
 
 Inventory Page Should Be Open
+    [Documentation]    Verifies the inventory page is displayed. ``timeout`` overrides the default wait.
     [Arguments]    ${timeout}=${None}
     Wait Until Locator Is Visible    inventory.container    ${timeout}
     Page Title Should Be    Products
 
 Product Count Should Be
+    [Documentation]    Verifies the inventory shows ``expected`` products.
     [Arguments]    ${expected}
     ${count}=    Get Count Of Locator    inventory.item
     Should Be Equal As Integers    ${count}    ${expected}
@@ -64,6 +71,7 @@ Products Should Be Sorted By
     Lists Should Be Equal    ${values}    ${expected}
 
 Product Button Should Say Remove
+    [Documentation]    Verifies the button for ``product`` has switched to "Remove".
     [Arguments]    ${product}
     Wait Until Locator Is Visible    inventory.remove    product=${product}
 

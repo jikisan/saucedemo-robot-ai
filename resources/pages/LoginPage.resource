@@ -6,6 +6,7 @@ Resource            InventoryPage.resource
 
 *** Keywords ***
 Submit Credentials
+    [Documentation]    Enters ``username`` and ``password`` and submits the login form. The password is not logged.
     [Arguments]    ${username}    ${password}
     Input Into Locator    login.username    ${username}
     Input Secret Into Locator    login.password    ${password}
@@ -33,9 +34,11 @@ Login As Using Outdated Submit Locator
     Click Locator    demo.renamed_login_button
 
 Login Page Should Be Open
+    [Documentation]    Verifies the login form is displayed.
     Wait Until Locator Is Visible    login.submit
 
 Login Error Should Contain
+    [Documentation]    Verifies the login error message contains ``expected``.
     [Arguments]    ${expected}
     ${message}=    Get Text Of Locator    login.error
     Should Contain    ${message}    ${expected}

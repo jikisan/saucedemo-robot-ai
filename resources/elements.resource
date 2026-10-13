@@ -18,12 +18,14 @@ ${RETRY_INTERVAL}     200ms
 
 *** Keywords ***
 Click Locator
+    [Documentation]    Clicks the element for ``key`` once visible. ``params`` fill templated locators.
     [Arguments]    ${key}    &{params}
     ${locator}=    Resolve Locator    ${key}    &{params}
     Wait Until Element Is Visible    ${locator}
     Retry On Stale Element    Click Element    ${locator}
 
 Input Into Locator
+    [Documentation]    Types ``text`` into the element for ``key`` once visible, replacing its value.
     [Arguments]    ${key}    ${text}    &{params}
     ${locator}=    Resolve Locator    ${key}    &{params}
     Wait Until Element Is Visible    ${locator}
@@ -37,12 +39,14 @@ Input Secret Into Locator
     Retry On Stale Element    Input Password    ${locator}    ${secret}
 
 Select Value From Locator
+    [Documentation]    Selects the option with ``value`` in the dropdown for ``key``.
     [Arguments]    ${key}    ${value}
     ${locator}=    Resolve Locator    ${key}
     Wait Until Element Is Visible    ${locator}
     Retry On Stale Element    Select From List By Value    ${locator}    ${value}
 
 Get Text Of Locator
+    [Documentation]    Returns the visible text of the element for ``key``.
     [Arguments]    ${key}    &{params}
     ${locator}=    Resolve Locator    ${key}    &{params}
     Wait Until Element Is Visible    ${locator}
@@ -58,6 +62,7 @@ Get Texts Of Locator
     RETURN    ${texts}
 
 Read Texts Of Elements
+    [Documentation]    Returns the text of every element matching a resolved ``locator``. Helper for ``Get Texts Of Locator``.
     [Arguments]    ${locator}
     ${elements}=    Get WebElements    ${locator}
     ${texts}=    Create List
@@ -68,17 +73,20 @@ Read Texts Of Elements
     RETURN    ${texts}
 
 Get Count Of Locator
+    [Documentation]    Returns how many elements match ``key``. Zero is a valid result, so no wait and no healing.
     [Arguments]    ${key}
     ${locator}=    Get Locator    ${key}
     ${count}=    Get Element Count    ${locator}
     RETURN    ${count}
 
 Wait Until Locator Is Visible
+    [Documentation]    Waits until the element for ``key`` is visible. ``timeout`` overrides the Selenium timeout.
     [Arguments]    ${key}    ${timeout}=${None}    &{params}
     ${locator}=    Resolve Locator    ${key}    timeout=${timeout}    &{params}
     Wait Until Element Is Visible    ${locator}    ${timeout}
 
 Wait Until Locator Is Gone
+    [Documentation]    Waits until no element matches ``key``. Uses the primary locator; absence is the expected state.
     [Arguments]    ${key}    &{params}
     ${locator}=    Get Locator    ${key}    &{params}
     Wait Until Page Does Not Contain Element    ${locator}
