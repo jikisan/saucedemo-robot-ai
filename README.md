@@ -35,7 +35,16 @@ robot -A robot.args --test "Checkout Requires*" tests       # by name
 HEADLESS=false BROWSER=firefox robot -A robot.args tests    # headed Firefox
 ```
 
-`robot.args` adds `--pythonpath .`, `--outputdir results`, `--skiponfailure known-bug` and the AI listener.
+`robot.args` adds `--pythonpath .`, `--outputdir results`, `--skiponfailure known-bug`, the AI listener and `--xunit xunit.xml` (JUnit XML at `results/xunit.xml` for Jenkins, GitLab or any CI test-report widget).
+
+### Run in Docker (no local Python or Chrome)
+
+```bash
+docker compose run --rm tests                                             # full suite, results in ./results
+docker compose run --rm tests robot -A robot.args --include smoke tests   # any robot/pabot/pytest command
+```
+
+The image ships Debian Chromium + chromedriver (amd64 and arm64), always headless. `.env` is picked up if present.
 
 ### Enable AI (optional)
 

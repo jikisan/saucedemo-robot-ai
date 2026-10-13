@@ -1,0 +1,9 @@
+services:
+  tests:
+    build: .
+    env_file:
+      - path: .env
+        required: false
+    shm_size: 2gb
+    volumes:
+      - ./results:/app/results

@@ -2,3 +2,4 @@
 --outputdir results
 --skiponfailure known-bug
 --listener listeners/AIReportListener.py
+--xunit xunit.xml

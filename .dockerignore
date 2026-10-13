@@ -1,0 +1,9 @@
+.git
+.venv
+.idea
+.env
+results
+pabot_results
+__pycache__
+*.html
+output.xml
